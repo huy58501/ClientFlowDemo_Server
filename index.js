@@ -15,6 +15,11 @@ app.get('/', (req, res) => {
 
 app.post('/login', async (req, res) => {
   const { username, password } = req.body;
+  const apiKey = req.headers['x-api-key'];
+
+  if (apiKey !== process.env.API_KEY) {
+    return res.status(403).json({ error: 'Invalid API key' });
+  }
 
   try {
     const user = await prisma.user.findUnique({
