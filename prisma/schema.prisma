@@ -20,6 +20,20 @@ model User {
   password  String   
   role      String   
   created_at DateTime @default(now())
+  loginHistory LoginHistory[]
 
   @@map("users")
 }
+
+model LoginHistory {
+  id        String   @id @default(uuid())
+  username  String
+  ip        String
+  device    String
+  login_time DateTime
+  user      User     @relation(fields: [username], references: [username])
+
+  @@map("login_history")
+}
+
+

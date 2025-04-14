@@ -18,6 +18,11 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
  * 
  */
 export type User = $Result.DefaultSelection<Prisma.$UserPayload>
+/**
+ * Model LoginHistory
+ * 
+ */
+export type LoginHistory = $Result.DefaultSelection<Prisma.$LoginHistoryPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -153,6 +158,16 @@ export class PrismaClient<
     * ```
     */
   get user(): Prisma.UserDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.loginHistory`: Exposes CRUD operations for the **LoginHistory** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more LoginHistories
+    * const loginHistories = await prisma.loginHistory.findMany()
+    * ```
+    */
+  get loginHistory(): Prisma.LoginHistoryDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -593,7 +608,8 @@ export namespace Prisma {
 
 
   export const ModelName: {
-    User: 'User'
+    User: 'User',
+    LoginHistory: 'LoginHistory'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -612,7 +628,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user"
+      modelProps: "user" | "loginHistory"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -687,6 +703,80 @@ export namespace Prisma {
           count: {
             args: Prisma.UserCountArgs<ExtArgs>
             result: $Utils.Optional<UserCountAggregateOutputType> | number
+          }
+        }
+      }
+      LoginHistory: {
+        payload: Prisma.$LoginHistoryPayload<ExtArgs>
+        fields: Prisma.LoginHistoryFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.LoginHistoryFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoginHistoryPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.LoginHistoryFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoginHistoryPayload>
+          }
+          findFirst: {
+            args: Prisma.LoginHistoryFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoginHistoryPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.LoginHistoryFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoginHistoryPayload>
+          }
+          findMany: {
+            args: Prisma.LoginHistoryFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoginHistoryPayload>[]
+          }
+          create: {
+            args: Prisma.LoginHistoryCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoginHistoryPayload>
+          }
+          createMany: {
+            args: Prisma.LoginHistoryCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.LoginHistoryCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoginHistoryPayload>[]
+          }
+          delete: {
+            args: Prisma.LoginHistoryDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoginHistoryPayload>
+          }
+          update: {
+            args: Prisma.LoginHistoryUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoginHistoryPayload>
+          }
+          deleteMany: {
+            args: Prisma.LoginHistoryDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.LoginHistoryUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.LoginHistoryUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoginHistoryPayload>[]
+          }
+          upsert: {
+            args: Prisma.LoginHistoryUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoginHistoryPayload>
+          }
+          aggregate: {
+            args: Prisma.LoginHistoryAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateLoginHistory>
+          }
+          groupBy: {
+            args: Prisma.LoginHistoryGroupByArgs<ExtArgs>
+            result: $Utils.Optional<LoginHistoryGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.LoginHistoryCountArgs<ExtArgs>
+            result: $Utils.Optional<LoginHistoryCountAggregateOutputType> | number
           }
         }
       }
@@ -775,6 +865,7 @@ export namespace Prisma {
   }
   export type GlobalOmitConfig = {
     user?: UserOmit
+    loginHistory?: LoginHistoryOmit
   }
 
   /* Types for Logging */
@@ -863,6 +954,36 @@ export namespace Prisma {
    * Count Types
    */
 
+
+  /**
+   * Count Type UserCountOutputType
+   */
+
+  export type UserCountOutputType = {
+    loginHistory: number
+  }
+
+  export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    loginHistory?: boolean | UserCountOutputTypeCountLoginHistoryArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCountOutputType
+     */
+    select?: UserCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountLoginHistoryArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LoginHistoryWhereInput
+  }
 
 
   /**
@@ -1033,6 +1154,8 @@ export namespace Prisma {
     password?: boolean
     role?: boolean
     created_at?: boolean
+    loginHistory?: boolean | User$loginHistoryArgs<ExtArgs>
+    _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -1060,10 +1183,18 @@ export namespace Prisma {
   }
 
   export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "username" | "password" | "role" | "created_at", ExtArgs["result"]["user"]>
+  export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    loginHistory?: boolean | User$loginHistoryArgs<ExtArgs>
+    _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type UserIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
 
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
-    objects: {}
+    objects: {
+      loginHistory: Prisma.$LoginHistoryPayload<ExtArgs>[]
+    }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       username: string
@@ -1464,6 +1595,7 @@ export namespace Prisma {
    */
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    loginHistory<T extends User$loginHistoryArgs<ExtArgs> = {}>(args?: Subset<T, User$loginHistoryArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoginHistoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1515,6 +1647,10 @@ export namespace Prisma {
      */
     omit?: UserOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    /**
      * Filter, which User to fetch.
      */
     where: UserWhereUniqueInput
@@ -1533,6 +1669,10 @@ export namespace Prisma {
      */
     omit?: UserOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    /**
      * Filter, which User to fetch.
      */
     where: UserWhereUniqueInput
@@ -1550,6 +1690,10 @@ export namespace Prisma {
      * Omit specific fields from the User
      */
     omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
     /**
      * Filter, which User to fetch.
      */
@@ -1599,6 +1743,10 @@ export namespace Prisma {
      */
     omit?: UserOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    /**
      * Filter, which User to fetch.
      */
     where?: UserWhereInput
@@ -1647,6 +1795,10 @@ export namespace Prisma {
      */
     omit?: UserOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    /**
      * Filter, which Users to fetch.
      */
     where?: UserWhereInput
@@ -1689,6 +1841,10 @@ export namespace Prisma {
      * Omit specific fields from the User
      */
     omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
     /**
      * The data needed to create a User.
      */
@@ -1737,6 +1893,10 @@ export namespace Prisma {
      * Omit specific fields from the User
      */
     omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
     /**
      * The data needed to update a User.
      */
@@ -1804,6 +1964,10 @@ export namespace Prisma {
      */
     omit?: UserOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    /**
      * The filter to search for the User to update in case it exists.
      */
     where: UserWhereUniqueInput
@@ -1830,6 +1994,10 @@ export namespace Prisma {
      */
     omit?: UserOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    /**
      * Filter which User to delete.
      */
     where: UserWhereUniqueInput
@@ -1850,6 +2018,30 @@ export namespace Prisma {
   }
 
   /**
+   * User.loginHistory
+   */
+  export type User$loginHistoryArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoginHistory
+     */
+    select?: LoginHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoginHistory
+     */
+    omit?: LoginHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoginHistoryInclude<ExtArgs> | null
+    where?: LoginHistoryWhereInput
+    orderBy?: LoginHistoryOrderByWithRelationInput | LoginHistoryOrderByWithRelationInput[]
+    cursor?: LoginHistoryWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: LoginHistoryScalarFieldEnum | LoginHistoryScalarFieldEnum[]
+  }
+
+  /**
    * User without action
    */
   export type UserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1861,6 +2053,1068 @@ export namespace Prisma {
      * Omit specific fields from the User
      */
     omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model LoginHistory
+   */
+
+  export type AggregateLoginHistory = {
+    _count: LoginHistoryCountAggregateOutputType | null
+    _min: LoginHistoryMinAggregateOutputType | null
+    _max: LoginHistoryMaxAggregateOutputType | null
+  }
+
+  export type LoginHistoryMinAggregateOutputType = {
+    id: string | null
+    username: string | null
+    ip: string | null
+    device: string | null
+    login_time: Date | null
+  }
+
+  export type LoginHistoryMaxAggregateOutputType = {
+    id: string | null
+    username: string | null
+    ip: string | null
+    device: string | null
+    login_time: Date | null
+  }
+
+  export type LoginHistoryCountAggregateOutputType = {
+    id: number
+    username: number
+    ip: number
+    device: number
+    login_time: number
+    _all: number
+  }
+
+
+  export type LoginHistoryMinAggregateInputType = {
+    id?: true
+    username?: true
+    ip?: true
+    device?: true
+    login_time?: true
+  }
+
+  export type LoginHistoryMaxAggregateInputType = {
+    id?: true
+    username?: true
+    ip?: true
+    device?: true
+    login_time?: true
+  }
+
+  export type LoginHistoryCountAggregateInputType = {
+    id?: true
+    username?: true
+    ip?: true
+    device?: true
+    login_time?: true
+    _all?: true
+  }
+
+  export type LoginHistoryAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LoginHistory to aggregate.
+     */
+    where?: LoginHistoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LoginHistories to fetch.
+     */
+    orderBy?: LoginHistoryOrderByWithRelationInput | LoginHistoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: LoginHistoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LoginHistories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LoginHistories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned LoginHistories
+    **/
+    _count?: true | LoginHistoryCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: LoginHistoryMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: LoginHistoryMaxAggregateInputType
+  }
+
+  export type GetLoginHistoryAggregateType<T extends LoginHistoryAggregateArgs> = {
+        [P in keyof T & keyof AggregateLoginHistory]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateLoginHistory[P]>
+      : GetScalarType<T[P], AggregateLoginHistory[P]>
+  }
+
+
+
+
+  export type LoginHistoryGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LoginHistoryWhereInput
+    orderBy?: LoginHistoryOrderByWithAggregationInput | LoginHistoryOrderByWithAggregationInput[]
+    by: LoginHistoryScalarFieldEnum[] | LoginHistoryScalarFieldEnum
+    having?: LoginHistoryScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: LoginHistoryCountAggregateInputType | true
+    _min?: LoginHistoryMinAggregateInputType
+    _max?: LoginHistoryMaxAggregateInputType
+  }
+
+  export type LoginHistoryGroupByOutputType = {
+    id: string
+    username: string
+    ip: string
+    device: string
+    login_time: Date
+    _count: LoginHistoryCountAggregateOutputType | null
+    _min: LoginHistoryMinAggregateOutputType | null
+    _max: LoginHistoryMaxAggregateOutputType | null
+  }
+
+  type GetLoginHistoryGroupByPayload<T extends LoginHistoryGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<LoginHistoryGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof LoginHistoryGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], LoginHistoryGroupByOutputType[P]>
+            : GetScalarType<T[P], LoginHistoryGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type LoginHistorySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    username?: boolean
+    ip?: boolean
+    device?: boolean
+    login_time?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["loginHistory"]>
+
+  export type LoginHistorySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    username?: boolean
+    ip?: boolean
+    device?: boolean
+    login_time?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["loginHistory"]>
+
+  export type LoginHistorySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    username?: boolean
+    ip?: boolean
+    device?: boolean
+    login_time?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["loginHistory"]>
+
+  export type LoginHistorySelectScalar = {
+    id?: boolean
+    username?: boolean
+    ip?: boolean
+    device?: boolean
+    login_time?: boolean
+  }
+
+  export type LoginHistoryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "username" | "ip" | "device" | "login_time", ExtArgs["result"]["loginHistory"]>
+  export type LoginHistoryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type LoginHistoryIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type LoginHistoryIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $LoginHistoryPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "LoginHistory"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      username: string
+      ip: string
+      device: string
+      login_time: Date
+    }, ExtArgs["result"]["loginHistory"]>
+    composites: {}
+  }
+
+  type LoginHistoryGetPayload<S extends boolean | null | undefined | LoginHistoryDefaultArgs> = $Result.GetResult<Prisma.$LoginHistoryPayload, S>
+
+  type LoginHistoryCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<LoginHistoryFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: LoginHistoryCountAggregateInputType | true
+    }
+
+  export interface LoginHistoryDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['LoginHistory'], meta: { name: 'LoginHistory' } }
+    /**
+     * Find zero or one LoginHistory that matches the filter.
+     * @param {LoginHistoryFindUniqueArgs} args - Arguments to find a LoginHistory
+     * @example
+     * // Get one LoginHistory
+     * const loginHistory = await prisma.loginHistory.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends LoginHistoryFindUniqueArgs>(args: SelectSubset<T, LoginHistoryFindUniqueArgs<ExtArgs>>): Prisma__LoginHistoryClient<$Result.GetResult<Prisma.$LoginHistoryPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one LoginHistory that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {LoginHistoryFindUniqueOrThrowArgs} args - Arguments to find a LoginHistory
+     * @example
+     * // Get one LoginHistory
+     * const loginHistory = await prisma.loginHistory.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends LoginHistoryFindUniqueOrThrowArgs>(args: SelectSubset<T, LoginHistoryFindUniqueOrThrowArgs<ExtArgs>>): Prisma__LoginHistoryClient<$Result.GetResult<Prisma.$LoginHistoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LoginHistory that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoginHistoryFindFirstArgs} args - Arguments to find a LoginHistory
+     * @example
+     * // Get one LoginHistory
+     * const loginHistory = await prisma.loginHistory.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends LoginHistoryFindFirstArgs>(args?: SelectSubset<T, LoginHistoryFindFirstArgs<ExtArgs>>): Prisma__LoginHistoryClient<$Result.GetResult<Prisma.$LoginHistoryPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LoginHistory that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoginHistoryFindFirstOrThrowArgs} args - Arguments to find a LoginHistory
+     * @example
+     * // Get one LoginHistory
+     * const loginHistory = await prisma.loginHistory.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends LoginHistoryFindFirstOrThrowArgs>(args?: SelectSubset<T, LoginHistoryFindFirstOrThrowArgs<ExtArgs>>): Prisma__LoginHistoryClient<$Result.GetResult<Prisma.$LoginHistoryPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more LoginHistories that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoginHistoryFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all LoginHistories
+     * const loginHistories = await prisma.loginHistory.findMany()
+     * 
+     * // Get first 10 LoginHistories
+     * const loginHistories = await prisma.loginHistory.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const loginHistoryWithIdOnly = await prisma.loginHistory.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends LoginHistoryFindManyArgs>(args?: SelectSubset<T, LoginHistoryFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoginHistoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a LoginHistory.
+     * @param {LoginHistoryCreateArgs} args - Arguments to create a LoginHistory.
+     * @example
+     * // Create one LoginHistory
+     * const LoginHistory = await prisma.loginHistory.create({
+     *   data: {
+     *     // ... data to create a LoginHistory
+     *   }
+     * })
+     * 
+     */
+    create<T extends LoginHistoryCreateArgs>(args: SelectSubset<T, LoginHistoryCreateArgs<ExtArgs>>): Prisma__LoginHistoryClient<$Result.GetResult<Prisma.$LoginHistoryPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many LoginHistories.
+     * @param {LoginHistoryCreateManyArgs} args - Arguments to create many LoginHistories.
+     * @example
+     * // Create many LoginHistories
+     * const loginHistory = await prisma.loginHistory.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends LoginHistoryCreateManyArgs>(args?: SelectSubset<T, LoginHistoryCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many LoginHistories and returns the data saved in the database.
+     * @param {LoginHistoryCreateManyAndReturnArgs} args - Arguments to create many LoginHistories.
+     * @example
+     * // Create many LoginHistories
+     * const loginHistory = await prisma.loginHistory.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many LoginHistories and only return the `id`
+     * const loginHistoryWithIdOnly = await prisma.loginHistory.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends LoginHistoryCreateManyAndReturnArgs>(args?: SelectSubset<T, LoginHistoryCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoginHistoryPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a LoginHistory.
+     * @param {LoginHistoryDeleteArgs} args - Arguments to delete one LoginHistory.
+     * @example
+     * // Delete one LoginHistory
+     * const LoginHistory = await prisma.loginHistory.delete({
+     *   where: {
+     *     // ... filter to delete one LoginHistory
+     *   }
+     * })
+     * 
+     */
+    delete<T extends LoginHistoryDeleteArgs>(args: SelectSubset<T, LoginHistoryDeleteArgs<ExtArgs>>): Prisma__LoginHistoryClient<$Result.GetResult<Prisma.$LoginHistoryPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one LoginHistory.
+     * @param {LoginHistoryUpdateArgs} args - Arguments to update one LoginHistory.
+     * @example
+     * // Update one LoginHistory
+     * const loginHistory = await prisma.loginHistory.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends LoginHistoryUpdateArgs>(args: SelectSubset<T, LoginHistoryUpdateArgs<ExtArgs>>): Prisma__LoginHistoryClient<$Result.GetResult<Prisma.$LoginHistoryPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more LoginHistories.
+     * @param {LoginHistoryDeleteManyArgs} args - Arguments to filter LoginHistories to delete.
+     * @example
+     * // Delete a few LoginHistories
+     * const { count } = await prisma.loginHistory.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends LoginHistoryDeleteManyArgs>(args?: SelectSubset<T, LoginHistoryDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LoginHistories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoginHistoryUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many LoginHistories
+     * const loginHistory = await prisma.loginHistory.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends LoginHistoryUpdateManyArgs>(args: SelectSubset<T, LoginHistoryUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LoginHistories and returns the data updated in the database.
+     * @param {LoginHistoryUpdateManyAndReturnArgs} args - Arguments to update many LoginHistories.
+     * @example
+     * // Update many LoginHistories
+     * const loginHistory = await prisma.loginHistory.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more LoginHistories and only return the `id`
+     * const loginHistoryWithIdOnly = await prisma.loginHistory.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends LoginHistoryUpdateManyAndReturnArgs>(args: SelectSubset<T, LoginHistoryUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoginHistoryPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one LoginHistory.
+     * @param {LoginHistoryUpsertArgs} args - Arguments to update or create a LoginHistory.
+     * @example
+     * // Update or create a LoginHistory
+     * const loginHistory = await prisma.loginHistory.upsert({
+     *   create: {
+     *     // ... data to create a LoginHistory
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the LoginHistory we want to update
+     *   }
+     * })
+     */
+    upsert<T extends LoginHistoryUpsertArgs>(args: SelectSubset<T, LoginHistoryUpsertArgs<ExtArgs>>): Prisma__LoginHistoryClient<$Result.GetResult<Prisma.$LoginHistoryPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of LoginHistories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoginHistoryCountArgs} args - Arguments to filter LoginHistories to count.
+     * @example
+     * // Count the number of LoginHistories
+     * const count = await prisma.loginHistory.count({
+     *   where: {
+     *     // ... the filter for the LoginHistories we want to count
+     *   }
+     * })
+    **/
+    count<T extends LoginHistoryCountArgs>(
+      args?: Subset<T, LoginHistoryCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], LoginHistoryCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a LoginHistory.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoginHistoryAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends LoginHistoryAggregateArgs>(args: Subset<T, LoginHistoryAggregateArgs>): Prisma.PrismaPromise<GetLoginHistoryAggregateType<T>>
+
+    /**
+     * Group by LoginHistory.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoginHistoryGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends LoginHistoryGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: LoginHistoryGroupByArgs['orderBy'] }
+        : { orderBy?: LoginHistoryGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, LoginHistoryGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetLoginHistoryGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the LoginHistory model
+   */
+  readonly fields: LoginHistoryFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for LoginHistory.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__LoginHistoryClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the LoginHistory model
+   */
+  interface LoginHistoryFieldRefs {
+    readonly id: FieldRef<"LoginHistory", 'String'>
+    readonly username: FieldRef<"LoginHistory", 'String'>
+    readonly ip: FieldRef<"LoginHistory", 'String'>
+    readonly device: FieldRef<"LoginHistory", 'String'>
+    readonly login_time: FieldRef<"LoginHistory", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * LoginHistory findUnique
+   */
+  export type LoginHistoryFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoginHistory
+     */
+    select?: LoginHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoginHistory
+     */
+    omit?: LoginHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoginHistoryInclude<ExtArgs> | null
+    /**
+     * Filter, which LoginHistory to fetch.
+     */
+    where: LoginHistoryWhereUniqueInput
+  }
+
+  /**
+   * LoginHistory findUniqueOrThrow
+   */
+  export type LoginHistoryFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoginHistory
+     */
+    select?: LoginHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoginHistory
+     */
+    omit?: LoginHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoginHistoryInclude<ExtArgs> | null
+    /**
+     * Filter, which LoginHistory to fetch.
+     */
+    where: LoginHistoryWhereUniqueInput
+  }
+
+  /**
+   * LoginHistory findFirst
+   */
+  export type LoginHistoryFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoginHistory
+     */
+    select?: LoginHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoginHistory
+     */
+    omit?: LoginHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoginHistoryInclude<ExtArgs> | null
+    /**
+     * Filter, which LoginHistory to fetch.
+     */
+    where?: LoginHistoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LoginHistories to fetch.
+     */
+    orderBy?: LoginHistoryOrderByWithRelationInput | LoginHistoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LoginHistories.
+     */
+    cursor?: LoginHistoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LoginHistories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LoginHistories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LoginHistories.
+     */
+    distinct?: LoginHistoryScalarFieldEnum | LoginHistoryScalarFieldEnum[]
+  }
+
+  /**
+   * LoginHistory findFirstOrThrow
+   */
+  export type LoginHistoryFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoginHistory
+     */
+    select?: LoginHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoginHistory
+     */
+    omit?: LoginHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoginHistoryInclude<ExtArgs> | null
+    /**
+     * Filter, which LoginHistory to fetch.
+     */
+    where?: LoginHistoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LoginHistories to fetch.
+     */
+    orderBy?: LoginHistoryOrderByWithRelationInput | LoginHistoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LoginHistories.
+     */
+    cursor?: LoginHistoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LoginHistories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LoginHistories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LoginHistories.
+     */
+    distinct?: LoginHistoryScalarFieldEnum | LoginHistoryScalarFieldEnum[]
+  }
+
+  /**
+   * LoginHistory findMany
+   */
+  export type LoginHistoryFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoginHistory
+     */
+    select?: LoginHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoginHistory
+     */
+    omit?: LoginHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoginHistoryInclude<ExtArgs> | null
+    /**
+     * Filter, which LoginHistories to fetch.
+     */
+    where?: LoginHistoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LoginHistories to fetch.
+     */
+    orderBy?: LoginHistoryOrderByWithRelationInput | LoginHistoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing LoginHistories.
+     */
+    cursor?: LoginHistoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LoginHistories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LoginHistories.
+     */
+    skip?: number
+    distinct?: LoginHistoryScalarFieldEnum | LoginHistoryScalarFieldEnum[]
+  }
+
+  /**
+   * LoginHistory create
+   */
+  export type LoginHistoryCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoginHistory
+     */
+    select?: LoginHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoginHistory
+     */
+    omit?: LoginHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoginHistoryInclude<ExtArgs> | null
+    /**
+     * The data needed to create a LoginHistory.
+     */
+    data: XOR<LoginHistoryCreateInput, LoginHistoryUncheckedCreateInput>
+  }
+
+  /**
+   * LoginHistory createMany
+   */
+  export type LoginHistoryCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many LoginHistories.
+     */
+    data: LoginHistoryCreateManyInput | LoginHistoryCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * LoginHistory createManyAndReturn
+   */
+  export type LoginHistoryCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoginHistory
+     */
+    select?: LoginHistorySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoginHistory
+     */
+    omit?: LoginHistoryOmit<ExtArgs> | null
+    /**
+     * The data used to create many LoginHistories.
+     */
+    data: LoginHistoryCreateManyInput | LoginHistoryCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoginHistoryIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * LoginHistory update
+   */
+  export type LoginHistoryUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoginHistory
+     */
+    select?: LoginHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoginHistory
+     */
+    omit?: LoginHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoginHistoryInclude<ExtArgs> | null
+    /**
+     * The data needed to update a LoginHistory.
+     */
+    data: XOR<LoginHistoryUpdateInput, LoginHistoryUncheckedUpdateInput>
+    /**
+     * Choose, which LoginHistory to update.
+     */
+    where: LoginHistoryWhereUniqueInput
+  }
+
+  /**
+   * LoginHistory updateMany
+   */
+  export type LoginHistoryUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update LoginHistories.
+     */
+    data: XOR<LoginHistoryUpdateManyMutationInput, LoginHistoryUncheckedUpdateManyInput>
+    /**
+     * Filter which LoginHistories to update
+     */
+    where?: LoginHistoryWhereInput
+    /**
+     * Limit how many LoginHistories to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * LoginHistory updateManyAndReturn
+   */
+  export type LoginHistoryUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoginHistory
+     */
+    select?: LoginHistorySelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoginHistory
+     */
+    omit?: LoginHistoryOmit<ExtArgs> | null
+    /**
+     * The data used to update LoginHistories.
+     */
+    data: XOR<LoginHistoryUpdateManyMutationInput, LoginHistoryUncheckedUpdateManyInput>
+    /**
+     * Filter which LoginHistories to update
+     */
+    where?: LoginHistoryWhereInput
+    /**
+     * Limit how many LoginHistories to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoginHistoryIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * LoginHistory upsert
+   */
+  export type LoginHistoryUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoginHistory
+     */
+    select?: LoginHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoginHistory
+     */
+    omit?: LoginHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoginHistoryInclude<ExtArgs> | null
+    /**
+     * The filter to search for the LoginHistory to update in case it exists.
+     */
+    where: LoginHistoryWhereUniqueInput
+    /**
+     * In case the LoginHistory found by the `where` argument doesn't exist, create a new LoginHistory with this data.
+     */
+    create: XOR<LoginHistoryCreateInput, LoginHistoryUncheckedCreateInput>
+    /**
+     * In case the LoginHistory was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<LoginHistoryUpdateInput, LoginHistoryUncheckedUpdateInput>
+  }
+
+  /**
+   * LoginHistory delete
+   */
+  export type LoginHistoryDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoginHistory
+     */
+    select?: LoginHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoginHistory
+     */
+    omit?: LoginHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoginHistoryInclude<ExtArgs> | null
+    /**
+     * Filter which LoginHistory to delete.
+     */
+    where: LoginHistoryWhereUniqueInput
+  }
+
+  /**
+   * LoginHistory deleteMany
+   */
+  export type LoginHistoryDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LoginHistories to delete
+     */
+    where?: LoginHistoryWhereInput
+    /**
+     * Limit how many LoginHistories to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * LoginHistory without action
+   */
+  export type LoginHistoryDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoginHistory
+     */
+    select?: LoginHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoginHistory
+     */
+    omit?: LoginHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoginHistoryInclude<ExtArgs> | null
   }
 
 
@@ -1887,6 +3141,17 @@ export namespace Prisma {
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+  export const LoginHistoryScalarFieldEnum: {
+    id: 'id',
+    username: 'username',
+    ip: 'ip',
+    device: 'device',
+    login_time: 'login_time'
+  };
+
+  export type LoginHistoryScalarFieldEnum = (typeof LoginHistoryScalarFieldEnum)[keyof typeof LoginHistoryScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -1964,6 +3229,7 @@ export namespace Prisma {
     password?: StringFilter<"User"> | string
     role?: StringFilter<"User"> | string
     created_at?: DateTimeFilter<"User"> | Date | string
+    loginHistory?: LoginHistoryListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -1972,6 +3238,7 @@ export namespace Prisma {
     password?: SortOrder
     role?: SortOrder
     created_at?: SortOrder
+    loginHistory?: LoginHistoryOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -1983,6 +3250,7 @@ export namespace Prisma {
     password?: StringFilter<"User"> | string
     role?: StringFilter<"User"> | string
     created_at?: DateTimeFilter<"User"> | Date | string
+    loginHistory?: LoginHistoryListRelationFilter
   }, "id" | "username">
 
   export type UserOrderByWithAggregationInput = {
@@ -2007,12 +3275,68 @@ export namespace Prisma {
     created_at?: DateTimeWithAggregatesFilter<"User"> | Date | string
   }
 
+  export type LoginHistoryWhereInput = {
+    AND?: LoginHistoryWhereInput | LoginHistoryWhereInput[]
+    OR?: LoginHistoryWhereInput[]
+    NOT?: LoginHistoryWhereInput | LoginHistoryWhereInput[]
+    id?: StringFilter<"LoginHistory"> | string
+    username?: StringFilter<"LoginHistory"> | string
+    ip?: StringFilter<"LoginHistory"> | string
+    device?: StringFilter<"LoginHistory"> | string
+    login_time?: DateTimeFilter<"LoginHistory"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type LoginHistoryOrderByWithRelationInput = {
+    id?: SortOrder
+    username?: SortOrder
+    ip?: SortOrder
+    device?: SortOrder
+    login_time?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type LoginHistoryWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: LoginHistoryWhereInput | LoginHistoryWhereInput[]
+    OR?: LoginHistoryWhereInput[]
+    NOT?: LoginHistoryWhereInput | LoginHistoryWhereInput[]
+    username?: StringFilter<"LoginHistory"> | string
+    ip?: StringFilter<"LoginHistory"> | string
+    device?: StringFilter<"LoginHistory"> | string
+    login_time?: DateTimeFilter<"LoginHistory"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type LoginHistoryOrderByWithAggregationInput = {
+    id?: SortOrder
+    username?: SortOrder
+    ip?: SortOrder
+    device?: SortOrder
+    login_time?: SortOrder
+    _count?: LoginHistoryCountOrderByAggregateInput
+    _max?: LoginHistoryMaxOrderByAggregateInput
+    _min?: LoginHistoryMinOrderByAggregateInput
+  }
+
+  export type LoginHistoryScalarWhereWithAggregatesInput = {
+    AND?: LoginHistoryScalarWhereWithAggregatesInput | LoginHistoryScalarWhereWithAggregatesInput[]
+    OR?: LoginHistoryScalarWhereWithAggregatesInput[]
+    NOT?: LoginHistoryScalarWhereWithAggregatesInput | LoginHistoryScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"LoginHistory"> | string
+    username?: StringWithAggregatesFilter<"LoginHistory"> | string
+    ip?: StringWithAggregatesFilter<"LoginHistory"> | string
+    device?: StringWithAggregatesFilter<"LoginHistory"> | string
+    login_time?: DateTimeWithAggregatesFilter<"LoginHistory"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     username: string
     password: string
     role: string
     created_at?: Date | string
+    loginHistory?: LoginHistoryCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -2021,6 +3345,7 @@ export namespace Prisma {
     password: string
     role: string
     created_at?: Date | string
+    loginHistory?: LoginHistoryUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -2029,6 +3354,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    loginHistory?: LoginHistoryUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -2037,6 +3363,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    loginHistory?: LoginHistoryUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -2063,6 +3390,61 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type LoginHistoryCreateInput = {
+    id?: string
+    ip: string
+    device: string
+    login_time: Date | string
+    user: UserCreateNestedOneWithoutLoginHistoryInput
+  }
+
+  export type LoginHistoryUncheckedCreateInput = {
+    id?: string
+    username: string
+    ip: string
+    device: string
+    login_time: Date | string
+  }
+
+  export type LoginHistoryUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ip?: StringFieldUpdateOperationsInput | string
+    device?: StringFieldUpdateOperationsInput | string
+    login_time?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutLoginHistoryNestedInput
+  }
+
+  export type LoginHistoryUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    ip?: StringFieldUpdateOperationsInput | string
+    device?: StringFieldUpdateOperationsInput | string
+    login_time?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoginHistoryCreateManyInput = {
+    id?: string
+    username: string
+    ip: string
+    device: string
+    login_time: Date | string
+  }
+
+  export type LoginHistoryUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ip?: StringFieldUpdateOperationsInput | string
+    device?: StringFieldUpdateOperationsInput | string
+    login_time?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoginHistoryUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    ip?: StringFieldUpdateOperationsInput | string
+    device?: StringFieldUpdateOperationsInput | string
+    login_time?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -2087,6 +3469,16 @@ export namespace Prisma {
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+  }
+
+  export type LoginHistoryListRelationFilter = {
+    every?: LoginHistoryWhereInput
+    some?: LoginHistoryWhereInput
+    none?: LoginHistoryWhereInput
+  }
+
+  export type LoginHistoryOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type UserCountOrderByAggregateInput = {
@@ -2145,12 +3537,97 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type UserScalarRelationFilter = {
+    is?: UserWhereInput
+    isNot?: UserWhereInput
+  }
+
+  export type LoginHistoryCountOrderByAggregateInput = {
+    id?: SortOrder
+    username?: SortOrder
+    ip?: SortOrder
+    device?: SortOrder
+    login_time?: SortOrder
+  }
+
+  export type LoginHistoryMaxOrderByAggregateInput = {
+    id?: SortOrder
+    username?: SortOrder
+    ip?: SortOrder
+    device?: SortOrder
+    login_time?: SortOrder
+  }
+
+  export type LoginHistoryMinOrderByAggregateInput = {
+    id?: SortOrder
+    username?: SortOrder
+    ip?: SortOrder
+    device?: SortOrder
+    login_time?: SortOrder
+  }
+
+  export type LoginHistoryCreateNestedManyWithoutUserInput = {
+    create?: XOR<LoginHistoryCreateWithoutUserInput, LoginHistoryUncheckedCreateWithoutUserInput> | LoginHistoryCreateWithoutUserInput[] | LoginHistoryUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: LoginHistoryCreateOrConnectWithoutUserInput | LoginHistoryCreateOrConnectWithoutUserInput[]
+    createMany?: LoginHistoryCreateManyUserInputEnvelope
+    connect?: LoginHistoryWhereUniqueInput | LoginHistoryWhereUniqueInput[]
+  }
+
+  export type LoginHistoryUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<LoginHistoryCreateWithoutUserInput, LoginHistoryUncheckedCreateWithoutUserInput> | LoginHistoryCreateWithoutUserInput[] | LoginHistoryUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: LoginHistoryCreateOrConnectWithoutUserInput | LoginHistoryCreateOrConnectWithoutUserInput[]
+    createMany?: LoginHistoryCreateManyUserInputEnvelope
+    connect?: LoginHistoryWhereUniqueInput | LoginHistoryWhereUniqueInput[]
+  }
+
   export type StringFieldUpdateOperationsInput = {
     set?: string
   }
 
   export type DateTimeFieldUpdateOperationsInput = {
     set?: Date | string
+  }
+
+  export type LoginHistoryUpdateManyWithoutUserNestedInput = {
+    create?: XOR<LoginHistoryCreateWithoutUserInput, LoginHistoryUncheckedCreateWithoutUserInput> | LoginHistoryCreateWithoutUserInput[] | LoginHistoryUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: LoginHistoryCreateOrConnectWithoutUserInput | LoginHistoryCreateOrConnectWithoutUserInput[]
+    upsert?: LoginHistoryUpsertWithWhereUniqueWithoutUserInput | LoginHistoryUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: LoginHistoryCreateManyUserInputEnvelope
+    set?: LoginHistoryWhereUniqueInput | LoginHistoryWhereUniqueInput[]
+    disconnect?: LoginHistoryWhereUniqueInput | LoginHistoryWhereUniqueInput[]
+    delete?: LoginHistoryWhereUniqueInput | LoginHistoryWhereUniqueInput[]
+    connect?: LoginHistoryWhereUniqueInput | LoginHistoryWhereUniqueInput[]
+    update?: LoginHistoryUpdateWithWhereUniqueWithoutUserInput | LoginHistoryUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: LoginHistoryUpdateManyWithWhereWithoutUserInput | LoginHistoryUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: LoginHistoryScalarWhereInput | LoginHistoryScalarWhereInput[]
+  }
+
+  export type LoginHistoryUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<LoginHistoryCreateWithoutUserInput, LoginHistoryUncheckedCreateWithoutUserInput> | LoginHistoryCreateWithoutUserInput[] | LoginHistoryUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: LoginHistoryCreateOrConnectWithoutUserInput | LoginHistoryCreateOrConnectWithoutUserInput[]
+    upsert?: LoginHistoryUpsertWithWhereUniqueWithoutUserInput | LoginHistoryUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: LoginHistoryCreateManyUserInputEnvelope
+    set?: LoginHistoryWhereUniqueInput | LoginHistoryWhereUniqueInput[]
+    disconnect?: LoginHistoryWhereUniqueInput | LoginHistoryWhereUniqueInput[]
+    delete?: LoginHistoryWhereUniqueInput | LoginHistoryWhereUniqueInput[]
+    connect?: LoginHistoryWhereUniqueInput | LoginHistoryWhereUniqueInput[]
+    update?: LoginHistoryUpdateWithWhereUniqueWithoutUserInput | LoginHistoryUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: LoginHistoryUpdateManyWithWhereWithoutUserInput | LoginHistoryUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: LoginHistoryScalarWhereInput | LoginHistoryScalarWhereInput[]
+  }
+
+  export type UserCreateNestedOneWithoutLoginHistoryInput = {
+    create?: XOR<UserCreateWithoutLoginHistoryInput, UserUncheckedCreateWithoutLoginHistoryInput>
+    connectOrCreate?: UserCreateOrConnectWithoutLoginHistoryInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutLoginHistoryNestedInput = {
+    create?: XOR<UserCreateWithoutLoginHistoryInput, UserUncheckedCreateWithoutLoginHistoryInput>
+    connectOrCreate?: UserCreateOrConnectWithoutLoginHistoryInput
+    upsert?: UserUpsertWithoutLoginHistoryInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutLoginHistoryInput, UserUpdateWithoutLoginHistoryInput>, UserUncheckedUpdateWithoutLoginHistoryInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -2218,6 +3695,133 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
+  export type LoginHistoryCreateWithoutUserInput = {
+    id?: string
+    ip: string
+    device: string
+    login_time: Date | string
+  }
+
+  export type LoginHistoryUncheckedCreateWithoutUserInput = {
+    id?: string
+    ip: string
+    device: string
+    login_time: Date | string
+  }
+
+  export type LoginHistoryCreateOrConnectWithoutUserInput = {
+    where: LoginHistoryWhereUniqueInput
+    create: XOR<LoginHistoryCreateWithoutUserInput, LoginHistoryUncheckedCreateWithoutUserInput>
+  }
+
+  export type LoginHistoryCreateManyUserInputEnvelope = {
+    data: LoginHistoryCreateManyUserInput | LoginHistoryCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type LoginHistoryUpsertWithWhereUniqueWithoutUserInput = {
+    where: LoginHistoryWhereUniqueInput
+    update: XOR<LoginHistoryUpdateWithoutUserInput, LoginHistoryUncheckedUpdateWithoutUserInput>
+    create: XOR<LoginHistoryCreateWithoutUserInput, LoginHistoryUncheckedCreateWithoutUserInput>
+  }
+
+  export type LoginHistoryUpdateWithWhereUniqueWithoutUserInput = {
+    where: LoginHistoryWhereUniqueInput
+    data: XOR<LoginHistoryUpdateWithoutUserInput, LoginHistoryUncheckedUpdateWithoutUserInput>
+  }
+
+  export type LoginHistoryUpdateManyWithWhereWithoutUserInput = {
+    where: LoginHistoryScalarWhereInput
+    data: XOR<LoginHistoryUpdateManyMutationInput, LoginHistoryUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type LoginHistoryScalarWhereInput = {
+    AND?: LoginHistoryScalarWhereInput | LoginHistoryScalarWhereInput[]
+    OR?: LoginHistoryScalarWhereInput[]
+    NOT?: LoginHistoryScalarWhereInput | LoginHistoryScalarWhereInput[]
+    id?: StringFilter<"LoginHistory"> | string
+    username?: StringFilter<"LoginHistory"> | string
+    ip?: StringFilter<"LoginHistory"> | string
+    device?: StringFilter<"LoginHistory"> | string
+    login_time?: DateTimeFilter<"LoginHistory"> | Date | string
+  }
+
+  export type UserCreateWithoutLoginHistoryInput = {
+    id?: string
+    username: string
+    password: string
+    role: string
+    created_at?: Date | string
+  }
+
+  export type UserUncheckedCreateWithoutLoginHistoryInput = {
+    id?: string
+    username: string
+    password: string
+    role: string
+    created_at?: Date | string
+  }
+
+  export type UserCreateOrConnectWithoutLoginHistoryInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutLoginHistoryInput, UserUncheckedCreateWithoutLoginHistoryInput>
+  }
+
+  export type UserUpsertWithoutLoginHistoryInput = {
+    update: XOR<UserUpdateWithoutLoginHistoryInput, UserUncheckedUpdateWithoutLoginHistoryInput>
+    create: XOR<UserCreateWithoutLoginHistoryInput, UserUncheckedCreateWithoutLoginHistoryInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutLoginHistoryInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutLoginHistoryInput, UserUncheckedUpdateWithoutLoginHistoryInput>
+  }
+
+  export type UserUpdateWithoutLoginHistoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserUncheckedUpdateWithoutLoginHistoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoginHistoryCreateManyUserInput = {
+    id?: string
+    ip: string
+    device: string
+    login_time: Date | string
+  }
+
+  export type LoginHistoryUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ip?: StringFieldUpdateOperationsInput | string
+    device?: StringFieldUpdateOperationsInput | string
+    login_time?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoginHistoryUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ip?: StringFieldUpdateOperationsInput | string
+    device?: StringFieldUpdateOperationsInput | string
+    login_time?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoginHistoryUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ip?: StringFieldUpdateOperationsInput | string
+    device?: StringFieldUpdateOperationsInput | string
+    login_time?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 
